@@ -35,6 +35,6 @@ def create_menu_option(
         "<Leave>",
         lambda event: canvas.itemconfig(
             text_id,
-            fill="pink"
+            fill="#FF00FF"
         )
     )

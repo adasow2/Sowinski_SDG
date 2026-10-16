@@ -15,10 +15,7 @@ def create_window():
     )
 
     canvas.pack()
-
-
     # Grafika tła:
-
     window.background_screen = tk.PhotoImage(
         file="src/img/ekran.png"
     )
