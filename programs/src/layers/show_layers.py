@@ -4,6 +4,7 @@ from .state import active_layers
 from .remove import remove_selected_layers
 from .plot_layers import plot_selected_layers
 from .save_layer import save_selected_layer
+from .change_crs import change_layer_crs
 
 
 def load_layers(tree):
@@ -40,6 +41,14 @@ def create_buttons_panel(parent, tree):
         command=lambda: save_selected_layer(tree)
     )
     btn_save.pack(fill=tk.X, pady=5)
+
+    # Przycisk zmiany CRS
+    btn_crs = ttk.Button(
+        frame_buttons,
+        text="Zmień CRS",
+        command=lambda: change_layer_crs(tree, load_layers)
+    )
+    btn_crs.pack(fill=tk.X, pady=5)
 
     return frame_buttons
 
