@@ -3,9 +3,6 @@ from tkinter import ttk
 from ..state import active_layers
 
 class LayerTableWidget(ttk.Frame):
-    """
-    Komponent tabeli warstw (OOP).
-    """
     def __init__(self, parent, col_widths=None):
         super().__init__(parent)
 

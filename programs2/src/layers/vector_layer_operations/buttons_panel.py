@@ -7,9 +7,6 @@ from .table import LayerTableWidget
 from .operations_dialog import SimpleOperationsDialog
 
 class LayerButtonsPanel(ttk.Frame):
-    """
-    Panel przycisków sterujących warstwami, zorientowany obiektowo.
-    """
     def __init__(self, parent, table_widget: LayerTableWidget):
         super().__init__(parent, padding=10)
         self.table_widget = table_widget
@@ -82,6 +79,9 @@ class LayerButtonsPanel(ttk.Frame):
             try:
                 VectorLayer.load_vector(path)
                 self.table_widget.load_layers()
+                # Zamknij okno warstw (self.parent_window to okno Toplevel LayerWindow)
+                if hasattr(self, 'parent_window') and self.parent_window:
+                    self.parent_window.destroy()
             except Exception as e:
                 messagebox.showwarning(
                     "Błąd wczytywania",
@@ -131,7 +131,7 @@ class LayerButtonsPanel(ttk.Frame):
         if not selected_items:
             messagebox.showwarning("Brak zaznaczenia", "Zaznacz warstwę do zapisu.")
             return
-        
+
         if len(selected_items) > 1:
             messagebox.showwarning("Zbyt wiele zaznaczeń", "Wybierz tylko jedną warstwę do zapisu.")
             return

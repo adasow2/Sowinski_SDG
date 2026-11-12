@@ -3,9 +3,6 @@ from .vector_layer_operations.table import LayerTableWidget
 from .vector_layer_operations.buttons_panel import LayerButtonsPanel
 
 class LayerWindow(tk.Toplevel):
-    """
-    Główne okno warstw oparte na OOP, łączące tabelę i panel przycisków.
-    """
     def __init__(self, parent):
         super().__init__(parent)
         self.title("Warstwy")
@@ -25,5 +22,4 @@ class LayerWindow(tk.Toplevel):
 
 
 def show_layers(parent):
-    """Funkcja kompatybilna wstecznie, uruchamiająca okno OOP."""
     return LayerWindow(parent)

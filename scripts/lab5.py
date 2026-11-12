@@ -1,8 +1,7 @@
 # %%
-from statistics import LinearRegression
-
 import geopandas as gpd
-from shapely import Point, LineString, Polygon
+import matplotlib.pyplot as plt
+from shapely import Point, LineString, Polygon, count_coordinates
 from pathlib import Path
 
 # %%
@@ -89,7 +88,7 @@ geometrii wysp do nich przypisanych. Następnie stwórz ranking top 10 krajów k
 powierzchnię wysp w m2
 """
 
-wyspy.to_crs("EPSG:2180", inplace=True)
+wyspy.to_crs(epsg=6933, inplace=True)
 wyspy_dict = wyspy.groupby('państwo')['geometry'].apply(list).to_dict()
 wyspy_dict = {name: gpd.GeoSeries(geoms).area.sum() for name, geoms in wyspy_dict.items()}
 top_10 = sorted(wyspy_dict.items(), key=lambda x: x[1], reverse=True)[:10]
@@ -97,6 +96,9 @@ top_10 = sorted(wyspy_dict.items(), key=lambda x: x[1], reverse=True)[:10]
 for n, v in top_10:
     print(f"{n}: {v} m2")
 
+# %%
+wyspy_dict = wyspy.groupby('państwo')['geometry'].apply(list).to_dict()
+wyspy_dict
 
 # %% zadanie 3
 """
@@ -105,5 +107,26 @@ Przeprowadź dla nich 3 wizualizacje różniące się poziomem uproszczenia geom
 Dla każdego poziomu wypisz: ilość krawędzi (linii) oraz ilość wierzchołków (punktów) z których się składa
 """
 
-wyspy_jap = wyspy[wyspy['państwo'] == 'Japonia'].to_crs('EPSG:4326')
-wyspy_jap.simplify(0.5).plot()
+wyspy_jap = wyspy[wyspy['państwo'] == 'Japonia']
+wyspy_jap = (
+    wyspy_jap
+    .to_crs(epsg=4326)
+    .dissolve()
+)
+
+# %%
+tolerances = [0.05, 0.2, 0.5]
+
+for t in tolerances:
+    gdf = wyspy_jap.copy()
+    gdf.geometry = gdf.geometry.simplify(tolerance = t)
+
+    polygon = gdf.geometry.iloc[0]
+    print(
+        f"tolerancja: {t}",
+        f"liczba wierzchołków: {count_coordinates(polygon)}",
+        f"liczba krawędzi: {count_coordinates(polygon)- 1}\n",
+        sep = '\n'
+    )
+    gdf.plot()
+    plt.show()
