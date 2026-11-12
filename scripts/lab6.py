@@ -94,3 +94,12 @@ for a in h_arrays:
     w_arrays = np.array_split(a, 3, axis=0)
     for i in w_arrays:
         splited_arrays.append(i)
+
+
+# %% 
+raster_rgb_chw = np.moveaxis(raster_rgb2, -1, 0)
+
+profile.update({'count': 3})
+
+with rio.open(str(raster_folder / 'rgb2.tif'), 'w', **profile) as dst:
+  dst.write(raster_rgb_chw)
