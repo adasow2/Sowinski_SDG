@@ -1,0 +1,1 @@
+Z folderu z danymi usunąłem RTLW_L czyli linie poziomicowe, które ważyły ponad 400 mb. Samo zadanie było wykonywane na wszystkich plikach.
